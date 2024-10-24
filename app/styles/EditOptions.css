@@ -1,0 +1,25 @@
+/* app/components/EditOptions.css */
+.edit-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.edit-options input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.edit-options button {
+    padding: 0.5rem 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-options button:hover {
+    background-color: #218838;
+}

@@ -1,0 +1,12 @@
+/* app/components/FormDataDisplay.css */
+.form-data-display {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.input-data {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

@@ -1,16 +1,16 @@
 // app/components/InputField.tsx
 import React from 'react';
-import { Input } from '../types/Form';
-
-const InputField: React.FC<Input> = ({ id, name, type, required, options }) => {
+import '../styles/InputField.css';
+import {InputResponse} from "@/app/types/FormTypes";
+const InputField: React.FC<InputResponse> = ({ id, name, type, required, options }) => {
     return (
         <div className="input-field">
             <label htmlFor={id}>{name}</label>
             {type === 'select' ? (
                 <select id={id} required={required}>
                     {options?.map((option) => (
-                        <option key={option} value={option}>
-                            {option}
+                        <option key={option.id} value={option.optionValue}>
+                            {option.displayText}
                         </option>
                     ))}
                 </select>

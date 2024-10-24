@@ -1,49 +1,56 @@
 // app/components/FormModal.tsx
-import React, { useEffect, useState } from 'react';
-import InputField from './InputField';
-import { Form } from '../types/Form';
+import React, { useEffect } from 'react';
+import { useForm } from '../hooks/useForm';
+import { FormRequest } from '@/app/types/FormTypes';
+import '../styles/FormModal.css';
+import InputField from "@/app/components/InputField";
+import EditOptions from "@/app/components/EditOptionsProps";
 
-interface FormModalProps {
-    formId: string;
-    onClose: () => void;
-}
-
-const FormModal: React.FC<FormModalProps> = ({ formId, onClose }) => {
-    const [formData, setFormData] = useState<Form | null>(null);
+const FormModal: React.FC = () => {
+    const { inputs, formId, handleOptionsChange, handleSubmit, handleDelete } = useForm();
 
     useEffect(() => {
-        // Fetch form data from the API
-        fetch(`/api/forms/${formId}`)
-            .then((response) => response.json())
-            .then((data: Form) => setFormData(data));
+        // Fetch form data if formId is available
+        if (formId) {
+            // Fetch form data logic here if needed
+        }
     }, [formId]);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Submit form data
-        fetch(`/api/forms`, {
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then(() => {
-            onClose();
-            // Optionally, reload the form list
-        });
+    const onSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        const formData: FormRequest = {
+            name: 'Form Name',
+            inputs: inputs.map(input => ({
+                name: input.name,
+                inputType: input.type,
+                isRequired: input.required ?? false,
+                options: input.options ?? [],
+            })),
+        };
+        handleSubmit(formData);
     };
 
-    if (!formData) return null;
-
     return (
-        <div className="modal">
-            <form onSubmit={handleSubmit}>
-                {formData.inputs.map((input) => (
-                    <InputField key={input.id} {...input} />
+        <div className="form-modal">
+            <form onSubmit={onSubmit}>
+                {inputs.map((input, index) => (
+                    <div key={input.id}>
+                        <InputField {...input} />
+                        {input.type === 'select' && (
+                            <EditOptions
+                                options={input.options || []}
+                                onOptionsChange={(newOptions) => handleOptionsChange(index, newOptions)}
+                            />
+                        )}
+                    </div>
                 ))}
-                <button type="submit">Submit</button>
+                <button type="submit">{formId ? 'Update Form' : 'Create Form'}</button>
+                {formId && (
+                    <button type="button" onClick={handleDelete}>
+                        Delete Form
+                    </button>
+                )}
             </form>
-            <button onClick={onClose}>Close</button>
         </div>
     );
 };

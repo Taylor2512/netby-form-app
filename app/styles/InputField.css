@@ -1,0 +1,17 @@
+/* app/components/InputField.css */
+.input-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.input-field input,
+.input-field select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

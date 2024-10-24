@@ -1,6 +1,6 @@
 // app/components/FormButton.tsx
 import React from 'react';
-
+import '../styles/FormButton.css';
 interface FormButtonProps {
     formName: string;
     onClick: () => void;
